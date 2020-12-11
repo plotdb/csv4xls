@@ -19,6 +19,11 @@
             return v + "";
           }).join('\t');
         }).join('\r\n');
+        str = data.map(function(d, i){
+          return d.map(function(v, j){
+            return '"' + ('' + v).replace(/"/g, '""').replace(/\n/g, '\r') + '"';
+          }).join('\t');
+        }).join('\r\n');
         ba = new Uint8Array(2 + str.length * 2);
         for (i$ = 0, to$ = str.length; i$ < to$; ++i$) {
           i = i$;
