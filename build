@@ -2,7 +2,7 @@
 rm -rf dist
 mkdir -p dist
 echo "build src/csv4xls.ls -> dist/csv4xls.js ..."
-./node_modules/.bin/lsc -cbp src/csv4xls.ls > dist/csv4xls.js
+./node_modules/.bin/lsc -cp --no-header src/csv4xls.ls > dist/csv4xls.js
 echo "minifying csv4xls.js ..."
 ./node_modules/.bin/uglifyjs dist/csv4xls.js > dist/csv4xls.min.js
 echo "copy dist files to web ..."
