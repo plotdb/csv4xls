@@ -21,7 +21,7 @@ csv4xls provides following APIs:
 
 ## Limitation
 
-Only work with Excel if file is opened directly but double clicking. It won't work with text import wizard.
+Only work with Excel if file is opened directly. Doesn't work when importing with text import wizard.
 
 
 ## License
