@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
+rm -rf dist
 mkdir -p dist
-echo "build src/main.ls -> dist/main.js ..."
-./node_modules/.bin/lsc -cbp src/main.ls > dist/main.js
-echo "minifying main.js ..."
-./node_modules/.bin/uglifyjs dist/main.js > dist/main.min.js
+echo "build src/csv4xls.ls -> dist/csv4xls.js ..."
+./node_modules/.bin/lsc -cbp src/csv4xls.ls > dist/csv4xls.js
+echo "minifying csv4xls.js ..."
+./node_modules/.bin/uglifyjs dist/csv4xls.js > dist/csv4xls.min.js
+echo "copy dist files to web ..."
+rm -rf web/static/assets/lib/csv4xls/dev
+mkdir -p web/static/assets/lib/csv4xls/dev
+cp -R dist/* web/static/assets/lib/csv4xls/dev
 echo "done."
