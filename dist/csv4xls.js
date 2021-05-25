@@ -45,6 +45,19 @@
         var blob;
         blob = obj.toBlob(data);
         return URL.createObjectURL(blob);
+      },
+      download: function(data, name){
+        var href, a;
+        name == null && (name = "data.csv");
+        href = this.toHref(data);
+        a = document.createElement('a');
+        a.setAttribute('href', href);
+        a.setAttribute('download', name + (/\.csv$/i.exec(name) ? '' : '.csv'));
+        a.style.opacity = 0;
+        a.style.position = 'absolute';
+        document.body.appendChild(a);
+        a.click();
+        return document.body.removeChild(a);
       }
     };
     ret = function(it){

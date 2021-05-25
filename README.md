@@ -14,9 +14,10 @@ include csv4xls script, and use:
 
 csv4xls provides following APIs:
 
- * toArray - convert given 2D array to an xls-compatible CSV file, stores in an Uint8Array and returns the array.
- * toBlob - same as `toArray` but return a corresponding blob.
- * toHref - same as `toBlob` but return a corresponding object url.
+ * toArray(data) - convert given 2D array to an xls-compatible CSV file, stores in an Uint8Array and returns the array.
+ * toBlob(data) - same as `toArray` but return a corresponding blob.
+ * toHref(data) - same as `toBlob` but return a corresponding object url.
+ * download(data, filename) - trigger file download
 
 
 ## Limitation

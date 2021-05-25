@@ -7,7 +7,7 @@
     "dist/**/*"
   ],
   "description": "csv generator friendly for Microsoft Excel",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "homepage": "https://github.com/plotdb/csv4xls",
   "repository": {
     "type": "git",

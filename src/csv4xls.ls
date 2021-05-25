@@ -31,5 +31,16 @@ obj = do
   to-href: (data) ->
     blob = obj.to-blob(data)
     return URL.createObjectURL blob
+  download: (data, name = "data.csv") ->
+    href = @to-href data
+    a = document.createElement \a
+    a.setAttribute \href, href
+    a.setAttribute \download, name + (if /\.csv$/i.exec(name) => '' else \.csv)
+    a.style.opacity = 0
+    a.style.position = \absolute
+    document.body.appendChild a
+    a.click!
+    document.body.removeChild a
+
 ret = -> obj.to-href it
 ret <<< obj
