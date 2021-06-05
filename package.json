@@ -18,12 +18,12 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npx server -r web"
+    "start": "npx server -r web -o true"
   },
   "devDependencies": {
     "livescript": ">=1.6.0",
     "puppeteer": "^5.3.1",
-    "template": "github:zbryikt/template#v2.1.6",
+    "template": "github:zbryikt/template#v2.3.13",
     "uglify-js": "=3.2.0"
   },
   "frontendDependencies": {
