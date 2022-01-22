@@ -2,7 +2,8 @@
   "author": "zbryikt",
   "name": "csv4xls",
   "license": "MIT",
-  "main": "dist/csv4xls.js",
+  "browser": "dist/index.min.js",
+  "main": "dist/index.min.js",
   "files": [
     "dist/**/*"
   ],
