@@ -1,9 +1,3 @@
-reg = (cb) ->
-  ret = cb!
-  if module? => module.exports = ret
-  else if window? => window.csv4xls = ret
-
-<- reg _
 # according to https://stackoverflow.com/questions/155097
 # convert utf-8 csv to utf-16le with BOM (0xff 0xfe )
 # even with this, quoted newline only works
@@ -42,5 +36,8 @@ obj = do
     a.click!
     document.body.removeChild a
 
-ret = -> obj.to-href it
-ret <<< obj
+csv4xls = -> obj.to-href it
+csv4xls <<< obj
+
+if module? => module.exports = csv4xls
+else if window? => window.csv4xls = csv4xls
