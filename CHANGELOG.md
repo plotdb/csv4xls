@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.3.0
+
+ - add `toString` api
+
+
 ## v0.2.0
 
  - further minimize generated js file with mangling and compression

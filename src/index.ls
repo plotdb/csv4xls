@@ -3,7 +3,7 @@
 # even with this, quoted newline only works
 # if csv is opened by double clicking instead of text import wizard.
 obj = do
-  to-array: (data) ->
+  to-string: (data) ->
     str = data.map((d,i) -> d.map((v,j) -> "#v").join(\\t)).join('\r\n')
     str = data
       .map (d,i) ->
@@ -11,7 +11,8 @@ obj = do
           .map (v,j) -> '"' + ('' + v).replace(/"/g, '""').replace(/\n/g,'\r') + '"'
           .join '\t'
       .join '\r\n'
-
+  to-array: (data) ->
+    str = obj.to-string data
     ba = new Uint8Array(2 + str.length * 2)
     for i from 0 til str.length
       ba[i * 2 + 2] = str.charCodeAt i

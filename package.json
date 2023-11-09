@@ -8,7 +8,7 @@
     "dist/**/*"
   ],
   "description": "csv generator friendly for Microsoft Excel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/plotdb/csv4xls",
   "repository": {
     "type": "git",
@@ -22,10 +22,9 @@
     "start": "npx server -r web -o true"
   },
   "devDependencies": {
-    "@zbryikt/template": "^2.3.33",
-    "fedep": "^1.1.2",
+    "@zbryikt/template": "^2.3.45",
+    "fedep": "^1.1.11",
     "livescript": ">=1.6.0",
-    "puppeteer": "^5.3.1",
     "uglify-js": "^3.13.1"
   },
   "frontendDependencies": {

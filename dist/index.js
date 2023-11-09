@@ -1,18 +1,22 @@
 (function(){
   var obj, csv4xls;
   obj = {
-    toArray: function(data){
-      var str, ba, i$, to$, i;
+    toString: function(data){
+      var str;
       str = data.map(function(d, i){
         return d.map(function(v, j){
           return v + "";
         }).join('\t');
       }).join('\r\n');
-      str = data.map(function(d, i){
+      return str = data.map(function(d, i){
         return d.map(function(v, j){
           return '"' + ('' + v).replace(/"/g, '""').replace(/\n/g, '\r') + '"';
         }).join('\t');
       }).join('\r\n');
+    },
+    toArray: function(data){
+      var str, ba, i$, to$, i;
+      str = obj.toString(data);
       ba = new Uint8Array(2 + str.length * 2);
       for (i$ = 0, to$ = str.length; i$ < to$; ++i$) {
         i = i$;
