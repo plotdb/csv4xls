@@ -7,7 +7,9 @@ html
     ])
   body
     .w-1024.rwd.mx-auto.my-5
-      a#link(href="#",download="output.tsv") Click to Download TSV
+      .d-flex.flex-column.g-4
+        a#linktsv(href="#",download="output.tsv") Click to Download the sample data as TSV file
+        a#linkxlsx(href="#",download="output.xlsx") Click to Download the sample as XLSX file
     +script([
       {"url": "/assets/lib/csv4xls/dev/index.min.js"},
       {name: "xlsx", path: "dist/xlsx.full.min.js"}

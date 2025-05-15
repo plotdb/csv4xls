@@ -10,9 +10,11 @@ for i from 0 til rows
     len = Math.round(Math.random! * (content.length - x - 10) / 2  + 5) <? 20
     line.push(
       if types[j] == \n => Math.round(Math.random! * 1000)
-      else content.substring(x,len)
+      else content.substring(x,x + len)
     )
   data.push line
 
-link.setAttribute \href, csv4xls.to-href(data, ',')
+linktsv.setAttribute \href, csv4xls.to-href(data, delimiter: ',')
+linkxlsx.setAttribute \href, csv4xls.to-href(data, format: 'xlsx')
 console.log csv4xls.to-string(data)
+console.log data

@@ -1,5 +1,14 @@
 (function(){
-  var obj, csv4xls;
+  var hasXlsx, obj, csv4xls;
+  hasXlsx = function(){
+    var e;
+    try {
+      return typeof XLSX !== 'undefined';
+    } catch (e$) {
+      e = e$;
+      return false;
+    }
+  };
   obj = {
     toString: function(data, delimiter){
       var str;
@@ -29,30 +38,78 @@
       ba[1] = 0xfe;
       return ba;
     },
-    toBlob: function(data, delimiter){
-      var ba, mimeType;
-      delimiter == null && (delimiter = '\t');
+    toXlsx: function(data){
+      var workbook, worksheet;
+      if (!hasXlsx()) {
+        throw new Error("XLSX module not found. Please include xlsx.js in your project.");
+      }
+      workbook = XLSX.utils.book_new();
+      worksheet = XLSX.utils.aoa_to_sheet(data);
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      return workbook;
+    },
+    toBlob: function(data, options){
+      var delimiter, format, workbook, buffer, e, ba, mimeType;
+      options == null && (options = {
+        delimiter: '\t',
+        format: 'auto'
+      });
+      delimiter = options.delimiter || '\t';
+      format = options.format || 'auto';
+      if (format === 'xlsx' || (format === 'auto' && hasXlsx())) {
+        try {
+          workbook = obj.toXlsx(data);
+          buffer = XLSX.write(workbook, {
+            type: 'array',
+            bookType: 'xlsx'
+          });
+          return new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          });
+        } catch (e$) {
+          e = e$;
+          console.warn("Failed to create XLSX. Falling back to CSV/TSV format.", e);
+        }
+      }
       ba = obj.toArray(data, delimiter);
       mimeType = delimiter === ',' ? "text/csv" : "text/tab-separated-values";
       return new Blob([ba], {
         type: mimeType
       });
     },
-    toHref: function(data, delimiter){
+    toHref: function(data, options){
       var blob;
-      delimiter == null && (delimiter = '\t');
-      blob = obj.toBlob(data, delimiter);
+      options == null && (options = {
+        delimiter: '\t',
+        format: 'auto'
+      });
+      blob = obj.toBlob(data, options);
       return URL.createObjectURL(blob);
     },
     download: function(data, name, options){
-      var delimiter, extension, href, a;
+      var delimiter, format, extension, e, href, a;
       name == null && (name = "data");
       options == null && (options = {
-        delimiter: '\t'
+        delimiter: '\t',
+        format: 'auto'
       });
       delimiter = options.delimiter || '\t';
-      extension = delimiter === ',' ? '.csv' : '.tsv';
-      href = this.toHref(data, delimiter);
+      format = options.format || 'auto';
+      extension = format === 'xlsx' || (format === 'auto' && hasXlsx())
+        ? (function(){
+          try {
+            return '.xlsx';
+          } catch (e$) {
+            e = e$;
+            if (delimiter === ',') {
+              return '.csv';
+            } else {
+              return '.tsv';
+            }
+          }
+        }())
+        : delimiter === ',' ? '.csv' : '.tsv';
+      href = this.toHref(data, options);
       a = document.createElement('a');
       a.setAttribute('href', href);
       a.setAttribute('download', name + (new RegExp("\\" + extension + "$", 'i').exec(name) ? '' : extension));
@@ -65,9 +122,10 @@
   };
   csv4xls = function(data, options){
     options == null && (options = {
-      delimiter: '\t'
+      delimiter: '\t',
+      format: 'auto'
     });
-    return obj.toHref(data, options.delimiter);
+    return obj.toHref(data, options);
   };
   import$(csv4xls, obj);
   if (typeof module != 'undefined' && module !== null) {
