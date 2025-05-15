@@ -1,5 +1,15 @@
 # Change Logs
 
+## v0.4.0
+
+ - **BREAKING CHANGE**: Add option to choose between comma and tab as delimiter
+   - Default delimiter changed to tab (`'\t'`), which creates TSV files
+   - File extension now depends on delimiter: `.csv` for comma, `.tsv` for tab
+   - MIME type now depends on delimiter: `text/csv` for comma, `text/tab-separated-values` for tab
+   - All API methods now accept a `delimiter` parameter
+   - `download` API now accepts an `options` object with `delimiter` property
+   - Default filename extension changed from `.csv` to `.tsv` when using default delimiter
+
 ## v0.3.0
 
  - add `toString` api
