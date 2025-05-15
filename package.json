@@ -8,27 +8,30 @@
     "dist/**/*"
   ],
   "description": "csv generator friendly for Microsoft Excel",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/plotdb/csv4xls",
   "repository": {
     "type": "git",
     "url": "https://github.com/plotdb/csv4xls"
   },
-  "engines": {
-    "node": ">=10.14.1",
-    "npm": ">=6.4.1"
-  },
   "scripts": {
     "start": "npx server -r web -o true"
   },
   "devDependencies": {
-    "@zbryikt/template": "^2.3.45",
-    "fedep": "^1.1.11",
+    "@loadingio/bootstrap.ext": "^0.0.12",
+    "@zbryikt/template": "^2.4.1",
+    "bootstrap": "^4.6.1",
+    "fedep": "^1.4.1",
     "livescript": ">=1.6.0",
-    "uglify-js": "^3.13.1"
+    "uglify-js": "^3.13.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "frontendDependencies": {
     "root": "web/static/assets/lib",
-    "modules": []
+    "modules": [
+      "bootstrap",
+      "@loadingio/bootstrap.ext",
+      "xlsx"
+    ]
   }
 }
