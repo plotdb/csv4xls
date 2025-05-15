@@ -2,6 +2,13 @@
 # convert utf-8 csv to utf-16le with BOM (0xff 0xfe )
 # even with this, quoted newline only works
 # if csv is opened by double clicking instead of text import wizard.
+# Check if XLSX module exists
+has-xlsx = ->
+  try
+    return typeof(XLSX) != 'undefined'
+  catch
+    return false
+
 obj = do
   to-string: (data, delimiter = '\t') ->
     str = data.map((d,i) -> d.map((v,j) -> "#v").join(delimiter)).join('\r\n')
@@ -20,17 +27,48 @@ obj = do
     ba[0] = 0xff
     ba[1] = 0xfe
     return ba
-  to-blob: (data, delimiter = '\t') ->
+  to-xlsx: (data) ->
+    if !has-xlsx! => throw new Error("XLSX module not found. Please include xlsx.js in your project.")
+    workbook = XLSX.utils.book_new!
+    worksheet = XLSX.utils.aoa_to_sheet(data)
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1")
+    return workbook
+  to-blob: (data, options = {delimiter: '\t', format: 'auto'}) ->
+    delimiter = options.delimiter or '\t'
+    format = options.format or 'auto'
+    
+    # If format is xlsx, use XLSX module
+    if format == 'xlsx' or (format == 'auto' and has-xlsx!)
+      try
+        workbook = obj.to-xlsx(data)
+        buffer = XLSX.write(workbook, {type: 'array', bookType: 'xlsx'})
+        return new Blob([buffer], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+      catch e
+        console.warn "Failed to create XLSX. Falling back to CSV/TSV format.", e
+        # Fall back to CSV/TSV if XLSX fails
+    
+    # Use CSV/TSV format
     ba = obj.to-array(data, delimiter)
     mime-type = if delimiter == ',' then "text/csv" else "text/tab-separated-values"
     new Blob([ba], {type: mime-type})
-  to-href: (data, delimiter = '\t') ->
-    blob = obj.to-blob(data, delimiter)
+  to-href: (data, options = {delimiter: '\t', format: 'auto'}) ->
+    blob = obj.to-blob(data, options)
     return URL.createObjectURL blob
-  download: (data, name = "data", options = {delimiter: '\t'}) ->
+  download: (data, name = "data", options = {delimiter: '\t', format: 'auto'}) ->
     delimiter = options.delimiter or '\t'
-    extension = if delimiter == ',' then '.csv' else '.tsv'
-    href = @to-href data, delimiter
+    format = options.format or 'auto'
+    
+    # Determine extension based on format and delimiter
+    extension =
+      if format == 'xlsx' or (format == 'auto' and has-xlsx!)
+        try
+          '.xlsx'
+        catch
+          if delimiter == ',' then '.csv' else '.tsv'
+      else
+        if delimiter == ',' then '.csv' else '.tsv'
+    
+    href = @to-href data, options
     a = document.createElement \a
     a.setAttribute \href, href
     a.setAttribute \download, name + (if new RegExp("\\#{extension}$", 'i').exec(name) => '' else extension)
@@ -40,7 +78,7 @@ obj = do
     a.click!
     document.body.removeChild a
 
-csv4xls = (data, options = {delimiter: '\t'}) -> obj.to-href data, options.delimiter
+csv4xls = (data, options = {delimiter: '\t', format: 'auto'}) -> obj.to-href data, options
 csv4xls <<< obj
 
 if module? => module.exports = csv4xls

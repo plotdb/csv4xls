@@ -9,6 +9,12 @@
    - All API methods now accept a `delimiter` parameter
    - `download` API now accepts an `options` object with `delimiter` property
    - Default filename extension changed from `.csv` to `.tsv` when using default delimiter
+ - Add support for XLSX format output
+   - New `toXlsx` method to convert data to XLSX workbook
+   - Add `format` option to `toBlob`, `toHref`, and `download` methods
+   - Auto-detect XLSX availability with fallback to CSV/TSV
+   - Set appropriate MIME type and file extension based on format
+   - Add dependency on SheetJS library (xlsx.js)
 
 ## v0.3.0
 
