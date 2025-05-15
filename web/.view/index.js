@@ -3,7 +3,7 @@ function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,
 var pug_match_html=/["&<>]/;function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;
     var locals_for_with = (locals || {});
     
-    (function (libLoader, version) {
+    (function (Array, c, defer, hashfile, libLoader, md5, url, version) {
       pug_html = pug_html + "\u003C!DOCTYPE html\u003E";
 if(!libLoader) {
   libLoader = {
@@ -17,96 +17,162 @@ if(!libLoader) {
   if(version) { libLoader.version(version); }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-pug_html = pug_html + "\u003Chtml\u003E\u003Chead\u003E\u003C\u002Fhead\u003E\u003Cbody\u003E\u003Ca id=\"link\" href=\"#\" download=\"output.csv\"\u003EClick to Download CSV\u003C\u002Fa\u003E\u003Cscript src=\"\u002Fassets\u002Flib\u002Fcsv4xls\u002Fdev\u002Findex.min.js\"\u003E\u003C\u002Fscript\u003E\u003Cscript type=\"module\"\u003Evar content,data;content=\"隊老請……子賽究千以不等王把，麼和一德一質非，招她片過各，情度亞陽立目紀化館媽答識國過個長時變只與中代間氣方高結局企眼畫提這動裡北，方起知參南真業突眼車識細？市時媽用都是相看業。運到你改朋太還存選造此個回力在……我動計人園原戰去，個開業劇度假童方苦女量地的但養用小字作會不的使快導灣，層醫市時指時至買兒的臉夫接，兒相的多後空日告縣他各放不正來不運？我灣局節場道務要或友出自。正實的整不了毒。利全據養我報並信務約展成裡，不集人，和義合對不深電火心們人越聲就是臉去它適心，治要歡起不！語要多，識天車他書文個大……他度就始下麼首他！那中越清頭腦同任半早良在，服我爸頭常度，居知大系麗片……具信福走功了以養滿信小作場平。知把科失始子操當健戰在，港筆林內狀去青起以出聲是音在也實。言照導經食術流相是生情書真放相力海有臺成義。朋他筆法他甚，飛朋文自：月風展師。議工知傷大……上者準收、怕的也裡要汽眾，一說種，起喜水有同戲要，市因收取了的合次養找問夫由處和候引星果解爭修。\";data=function(){var t,n,r=[];for(t=0,n=Math.round(10*Math.random()+10);t\u003Cn;++t){r.push(t)}return r}().map(function(){return function(){var t,n,r=[];for(t=0,n=Math.round(10*Math.random()+10);t\u003Cn;++t){r.push(t)}return r}().map(function(){var t,n;t=Math.round(Math.random()*content.length\u002F2);n=Math.round(Math.random()*(content.length-t-10)\u002F2+5);return content.substring(t,n)})});link.setAttribute(\"href\",csv4xls.toHref(data));console.log(csv4xls.toString(data));\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";
-    }.call(this, "libLoader" in locals_for_with ?
+pug_mixins["script"] = pug_interp = function(os,cfg){
+var block = (this && this.block), attributes = (this && this.attributes) || {};
+var str = '', urls = [];
+if(!Array.isArray(os)) { os = [os]; }
+// iterate os
+;(function(){
+  var $$obj = os;
+  if ('number' == typeof $$obj.length) {
+      for (var pug_index0 = 0, $$l = $$obj.length; pug_index0 < $$l; pug_index0++) {
+        var o = $$obj[pug_index0];
+c = o;
+if(typeof(o) == "string") { url = o; c = cfg || {};}
+else if(o.url) { url = o.url; }
+else { url = libLoader._r + "/" + o.name + "/" + (o.version || 'main') + "/" + (o.path || "index.min.js"); }
+if (!libLoader.js.url[url]) {
+libLoader.js.url[url] = true;
+defer = (typeof(c.defer) == "undefined" ? true : !!c.defer);
+if (/^https?:\/\/./.exec(url)) {
+pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
+else {
+pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url + libLoader._v, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
+}
+      }
+  } else {
+    var $$l = 0;
+    for (var pug_index0 in $$obj) {
+      $$l++;
+      var o = $$obj[pug_index0];
+c = o;
+if(typeof(o) == "string") { url = o; c = cfg || {};}
+else if(o.url) { url = o.url; }
+else { url = libLoader._r + "/" + o.name + "/" + (o.version || 'main') + "/" + (o.path || "index.min.js"); }
+if (!libLoader.js.url[url]) {
+libLoader.js.url[url] = true;
+defer = (typeof(c.defer) == "undefined" ? true : !!c.defer);
+if (/^https?:\/\/./.exec(url)) {
+pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
+else {
+pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url + libLoader._v, true, true)+pug_attr("defer", defer, true, true)+pug_attr("async", !!c.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
+}
+    }
+  }
+}).call(this);
+
+if (cfg && cfg.pack) {
+var name = md5(str);
+//var filename = "/js/pack/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".js";
+var fn = "/assets/bundle/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".js";
+hashfile({type: "js", name: name, files: urls, src: locals.filename});
+pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", fn + libLoader._v, true, true)) + "\u003E\u003C\u002Fscript\u003E";
+}
+};
+pug_mixins["css"] = pug_interp = function(os,cfg){
+var block = (this && this.block), attributes = (this && this.attributes) || {};
+var str = '', urls = [];
+if(!Array.isArray(os)) { os = [os]; }
+// iterate os
+;(function(){
+  var $$obj = os;
+  if ('number' == typeof $$obj.length) {
+      for (var pug_index1 = 0, $$l = $$obj.length; pug_index1 < $$l; pug_index1++) {
+        var o = $$obj[pug_index1];
+c = o;
+if(typeof(o) == "string") { url = o; c = cfg || {};}
+else if(o.url) { url = o.url; }
+else { url = libLoader._r + "/" + o.name + "/" + (o.version || 'main') + "/" + (o.path || "index.min.css"); }
+if (!libLoader.css.url[url]) {
+libLoader.css.url[url] = true;
+if (/^https?:\/\/./.exec(url)) {
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url, true, true)) + "\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
+else {
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url + libLoader._v, true, true)) + "\u003E";
+}
+}
+      }
+  } else {
+    var $$l = 0;
+    for (var pug_index1 in $$obj) {
+      $$l++;
+      var o = $$obj[pug_index1];
+c = o;
+if(typeof(o) == "string") { url = o; c = cfg || {};}
+else if(o.url) { url = o.url; }
+else { url = libLoader._r + "/" + o.name + "/" + (o.version || 'main') + "/" + (o.path || "index.min.css"); }
+if (!libLoader.css.url[url]) {
+libLoader.css.url[url] = true;
+if (/^https?:\/\/./.exec(url)) {
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url, true, true)) + "\u003E";
+}
+else
+if (cfg && cfg.pack) {
+str = str + ';' + url;
+urls.push(url);
+}
+else {
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url + libLoader._v, true, true)) + "\u003E";
+}
+}
+    }
+  }
+}).call(this);
+
+if (cfg && cfg.pack) {
+var name = md5(str);
+//var filename = "/css/pack/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".css";
+var fn = "/assets/bundle/" + name + "." + (typeof(cfg.min) == "undefined" || cfg.min ? "min" : "") + ".css";
+hashfile({type: "css", name: name, files: urls, src: locals.filename});
+pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", fn + libLoader._v, true, true)) + "\u003E";
+}
+};
+pug_html = pug_html + "\u003Chtml\u003E\u003Chead\u003E";
+pug_mixins["css"]([
+      {name: "bootstrap", path: "dist/css/bootstrap.min.css"},
+      {name: "@loadingio/bootstrap.ext"}
+    ]);
+pug_html = pug_html + "\u003C\u002Fhead\u003E\u003Cbody\u003E\u003Cdiv class=\"w-1024 rwd mx-auto my-5\"\u003E\u003Ca id=\"link\" href=\"#\" download=\"output.tsv\"\u003EClick to Download TSV\u003C\u002Fa\u003E\u003C\u002Fdiv\u003E";
+pug_mixins["script"]([
+      {"url": "/assets/lib/csv4xls/dev/index.min.js"},
+      {name: "xlsx", path: "dist/xlsx.full.min.js"}
+    ]);
+pug_html = pug_html + "\u003Cscript type=\"module\"\u003Evar content,data,ref$,rows,cols,types,i$,i,line,j$,j,x,len;content='隊老\"!!!\"\"請…\"…\"子賽究千以\"不等王把，\"\"\"麼和一\"德一質非，\"招\"她片過\"各，情度亞\"陽立\"目紀\"化館媽答識\"國過個\"長\"時變只與中\"代間氣方\"\"高結局企眼\"畫提這動裡\"\"北，方起\"知參南真業\"突\"眼車識\"細？市時媽\"用都\"是相\"看業。運到\"你改朋\\'太\"還存選造此\"個回力在\\'\"……我動計\"人園原戰去\"\\'，個開業\"劇度假童方\"苦\\'女量地\"的但養用小\"字作\\'會不\"的使快導灣\"，層醫\\'市\"時指時至買\"兒的臉夫\\'\"接，兒相的\"多後空日告\"\\'縣他各放\"不正來不運\"？\\'我灣局\"節場道務要\"或友\\'出自\"。正實的整\"不了毒\\'。\"利全據養我\"報並信務\\'\"約展成裡，\"不集人\"，\"和義合對不\"深電\"火心\"們人越聲就\"是\"臉去它\"適心，治要\"\"歡起不！\"語要多，\"\"識天車他書\"文個大\"…\"…他度就始\"下麼\"首他\"！那中越清\"頭\"腦同任\"半早良在，\"\"服我爸頭\"常度，居\"\"知大系麗片\"……具\"信\"福走功了以\"養滿\"信小\"作場平。知\"把\"科失始\"子操當健戰\"\"在，港筆\"林內狀去\"\"青起以出聲\"是音在\"也\"實。言照導\"經食\"術流\"相是生情書\"真\"放相力\"海有臺成義\"\"。朋他筆\"法他甚，\"\"飛朋文自：\"月風展\"\\'\"師。議工知\"傷大……上\"者準收、怕\"的也裡要汽\"眾，一說種\"，起喜水有\"同戲要，市\"因收取了的\"合次養找問\"夫由處和候\"引星果解爭\"修。';data=[];ref$=[30+Math.ceil(20*Math.random()),15+Math.ceil(10*Math.random())],rows=ref$[0],cols=ref$[1];types=function(){var t,n,e=[];for(t=0,n=cols;t\u003Cn;++t){e.push(t)}return e}().map(function(){if(Math.random()\u003E.5){return\"t\"}else{return\"n\"}});for(i$=0;i$\u003Crows;++i$){i=i$;line=[];for(j$=0;j$\u003Ccols;++j$){j=j$;x=Math.round(Math.random()*content.length\u002F2);len=(ref$=Math.round(Math.random()*(content.length-x-10)\u002F2+5))\u003C20?ref$:20;line.push(types[j]===\"n\"?Math.round(Math.random()*1e3):content.substring(x,len))}data.push(line)}link.setAttribute(\"href\",csv4xls.toHref(data,\",\"));console.log(csv4xls.toString(data));\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";
+    }.call(this, "Array" in locals_for_with ?
+        locals_for_with.Array :
+        typeof Array !== 'undefined' ? Array : undefined, "c" in locals_for_with ?
+        locals_for_with.c :
+        typeof c !== 'undefined' ? c : undefined, "defer" in locals_for_with ?
+        locals_for_with.defer :
+        typeof defer !== 'undefined' ? defer : undefined, "hashfile" in locals_for_with ?
+        locals_for_with.hashfile :
+        typeof hashfile !== 'undefined' ? hashfile : undefined, "libLoader" in locals_for_with ?
         locals_for_with.libLoader :
-        typeof libLoader !== 'undefined' ? libLoader : undefined, "version" in locals_for_with ?
+        typeof libLoader !== 'undefined' ? libLoader : undefined, "md5" in locals_for_with ?
+        locals_for_with.md5 :
+        typeof md5 !== 'undefined' ? md5 : undefined, "url" in locals_for_with ?
+        locals_for_with.url :
+        typeof url !== 'undefined' ? url : undefined, "version" in locals_for_with ?
         locals_for_with.version :
         typeof version !== 'undefined' ? version : undefined));
     ;;return pug_html;}; module.exports = template; })() 
