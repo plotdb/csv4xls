@@ -16,6 +16,7 @@
    - Set appropriate MIME type and file extension based on format
    - Add dependency on SheetJS library (xlsx.js)
 
+
 ## v0.3.0
 
  - add `toString` api
