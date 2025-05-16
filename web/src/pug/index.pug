@@ -7,11 +7,22 @@ html
     ])
   body
     .w-1024.rwd.mx-auto.my-5
-      .d-flex.flex-column.g-4
-        a#linktsv(href="#",download="output.tsv") Click to Download the sample data as TSV file
-        a#linkxlsx(href="#",download="output.xlsx") Click to Download the sample as XLSX file
+      .mb-4
+        p Click followings to download the sample data in corresponding format of:
+        ul
+          li: a(ld="link",data-type="tsv",href="#",download="output.tsv") TSV
+          li: a(ld="link",data-type="xlsx",href="#",download="output.xlsx") XLSX
+          li: a(ld="link",data-type="csv",href="#",download="output.csv") CSV
+          li: a(ld="link",data-type="xls-html",href="#",download="output.xls") HTML, in XLS
+      .mb-4
+        div Generated html fragment:
+        iframe.w-100.border(ld="iframe")
     +script([
       {"url": "/assets/lib/csv4xls/dev/index.min.js"},
-      {name: "xlsx", path: "dist/xlsx.full.min.js"}
+      {name: "xlsx", path: "dist/xlsx.full.min.js"},
+      {name: "proxise"},
+      {name: "@loadingio/debounce.js"},
+      {name: "@loadingio/ldquery"},
+      {name: "ldview"}
     ])
     script(type="module"): include:lsc index.ls

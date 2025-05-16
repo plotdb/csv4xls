@@ -1,5 +1,17 @@
 # Change Logs
 
+## v0.4.1
+
+ - Add `toHtml` method to convert data to HTML table format
+   - Applies `mso-number-format:'\@'` style to cells to prevent Excel from changing formats
+   - Supports configurable table class, cell styling, and header row options
+   - Properly escapes HTML special characters in cell content
+ - Add new format options to `toBlob` and `download` methods:
+   - `format: 'html'` - outputs HTML table with MIME type `text/html` and `.html` extension
+   - `format: 'xls-html'` - outputs HTML table with BOM and MIME type `application/vnd.ms-excel` for Excel compatibility with `.xls` extension
+   - HTML options can be passed via `options.html` object
+
+
 ## v0.4.0
 
  - **BREAKING CHANGE**: Add option to choose between comma and tab as delimiter
