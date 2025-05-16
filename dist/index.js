@@ -16,7 +16,8 @@
       delimiter: opt.delimiter || ({
         csv: ',',
         tsv: 't'
-      }[opt.format] || 't')
+      }[opt.format] || 't'),
+      forceText: opt.forceText || false
     };
   };
   obj = {
@@ -48,26 +49,39 @@
       ba[1] = 0xfe;
       return ba;
     },
-    toXlsx: function(data){
-      var workbook, worksheet;
+    toXlsx: function(data, options){
+      var workbook, worksheet, addr;
+      options == null && (options = {});
       if (!hasXlsx()) {
         throw new Error("XLSX module not found. Please include xlsx.js in your project.");
       }
       workbook = XLSX.utils.book_new();
       worksheet = XLSX.utils.aoa_to_sheet(data);
+      if (options.forceText) {
+        for (addr in worksheet) {
+          if (addr[0] !== '!') {
+            if (worksheet[addr] != null) {
+              worksheet[addr].t = 's';
+            }
+          }
+        }
+      }
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       return workbook;
     },
     toBlob: function(data, options){
-      var ref$, format, delimiter, workbook, buffer, e, html, ba, i$, to$, i, mimeType;
+      var ref$, format, delimiter, forceText, workbook, buffer, e, html, ba, i$, to$, i, mimeType;
       options == null && (options = {
         delimiter: undefined,
-        format: 'auto'
+        format: 'auto',
+        forceText: false
       });
-      ref$ = parseOption(options), format = ref$.format, delimiter = ref$.delimiter;
+      ref$ = parseOption(options), format = ref$.format, delimiter = ref$.delimiter, forceText = ref$.forceText;
       if (format === 'xlsx' || (format === 'auto' && hasXlsx())) {
         try {
-          workbook = obj.toXlsx(data);
+          workbook = obj.toXlsx(data, {
+            forceText: forceText
+          });
           buffer = XLSX.write(workbook, {
             type: 'array',
             bookType: 'xlsx'
@@ -110,19 +124,21 @@
       var blob;
       options == null && (options = {
         delimiter: undefined,
-        format: 'auto'
+        format: 'auto',
+        forceText: false
       });
       blob = obj.toBlob(data, options);
       return URL.createObjectURL(blob);
     },
     download: function(data, name, options){
-      var ref$, format, delimiter, extension, href, a;
+      var ref$, format, delimiter, forceText, extension, href, a;
       name == null && (name = "data");
       options == null && (options = {
         delimiter: undefined,
-        format: 'auto'
+        format: 'auto',
+        forceText: false
       });
-      ref$ = parseOption(options), format = ref$.format, delimiter = ref$.delimiter;
+      ref$ = parseOption(options), format = ref$.format, delimiter = ref$.delimiter, forceText = ref$.forceText;
       extension = format === 'xlsx' || (format === 'auto' && hasXlsx())
         ? '.xlsx'
         : format === 'html'
@@ -170,7 +186,8 @@
   csv4xls = function(data, options){
     options == null && (options = {
       delimiter: undefined,
-      format: 'auto'
+      format: 'auto',
+      forceText: false
     });
     return obj.toHref(data, options);
   };

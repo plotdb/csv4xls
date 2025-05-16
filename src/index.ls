@@ -10,6 +10,7 @@ has-xlsx = ->
 parse-option = (opt = {}) ->
   format: opt.format or 'auto'
   delimiter: opt.delimiter or ({csv: ',', tsv: \t}[opt.format] or \t)
+  force-text: opt.force-text or false
 
 obj = do
   to-string: (data, delimiter = '\t') ->
@@ -29,18 +30,30 @@ obj = do
     ba[0] = 0xff
     ba[1] = 0xfe
     return ba
-  to-xlsx: (data) ->
+  to-xlsx: (data, options = {}) ->
     if !has-xlsx! => throw new Error("XLSX module not found. Please include xlsx.js in your project.")
     workbook = XLSX.utils.book_new!
+    
+    # Create worksheet with standard method
     worksheet = XLSX.utils.aoa_to_sheet(data)
+    
+    # If force-text option is enabled, set all cells to text type
+    if options.force-text
+      for addr of worksheet
+        # Skip non-cell properties like !ref
+        if addr.0 != \!
+          # Set cell type to string if it exists
+          if worksheet[addr]?
+            worksheet[addr].t = \s
+    
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1")
     return workbook
-  to-blob: (data, options = {delimiter: undefined, format: 'auto'}) ->
-    {format, delimiter} = parse-option options
+  to-blob: (data, options = {delimiter: undefined, format: 'auto', force-text: false}) ->
+    {format, delimiter, force-text} = parse-option options
     # If format is xlsx, use XLSX module
     if format == 'xlsx' or (format == 'auto' and has-xlsx!)
       try
-        workbook = obj.to-xlsx(data)
+        workbook = obj.to-xlsx(data, {force-text})
         buffer = XLSX.write(workbook, {type: 'array', bookType: 'xlsx'})
         return new Blob([buffer], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
       catch e
@@ -72,11 +85,11 @@ obj = do
     ba = obj.to-array(data, delimiter)
     mime-type = if delimiter == ',' then "text/csv" else "text/tab-separated-values"
     new Blob([ba], {type: mime-type})
-  to-href: (data, options = {delimiter: undefined, format: 'auto'}) ->
+  to-href: (data, options = {delimiter: undefined, format: 'auto', force-text: false}) ->
     blob = obj.to-blob(data, options)
     return URL.createObjectURL blob
-  download: (data, name = "data", options = {delimiter: undefined, format: 'auto'}) ->
-    {format, delimiter} = parse-option options
+  download: (data, name = "data", options = {delimiter: undefined, format: 'auto', force-text: false}) ->
+    {format, delimiter, force-text} = parse-option options
     # Determine extension based on format and delimiter
     extension =
       if format == 'xlsx' or (format == 'auto' and has-xlsx!) => \.xlsx
@@ -129,7 +142,7 @@ obj = do
     html += "</table>"
     return html
 
-csv4xls = (data, options = {delimiter: undefined, format: 'auto'}) -> obj.to-href data, options
+csv4xls = (data, options = {delimiter: undefined, format: 'auto', force-text: false}) -> obj.to-href data, options
 csv4xls <<< obj
 
 if module? => module.exports = csv4xls

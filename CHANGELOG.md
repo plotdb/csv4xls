@@ -1,5 +1,13 @@
 # Change Logs
 
+## v0.4.2
+
+ - Add `forceText` option to force all cells in XLSX output to be text type
+   - Prevents Excel from automatically converting data types
+   - Works with `toXlsx`, `toBlob`, `toHref`, and `download` methods when using XLSX format
+   - Usage: `csv4xls.toBlob(data, {format: 'xlsx', forceText: true})`
+
+
 ## v0.4.1
 
  - Add `toHtml` method to convert data to HTML table format

@@ -14,8 +14,6 @@ for i from 0 til rows
     )
   data.push line
 
-#linktsv.setAttribute \href, csv4xls.to-href(data, delimiter: ',')
-#linkxlsx.setAttribute \href, csv4xls.to-href(data, format: 'xlsx')
 console.log csv4xls.to-string(data)
 console.log data
 view = new ldview do
@@ -23,7 +21,7 @@ view = new ldview do
   handler:
     link: ({node}) ->
       type = node.dataset.type
-      node.setAttribute \href, csv4xls.to-href data, format: type
+      node.setAttribute \href, csv4xls.to-href data, format: type, force-text: true
     iframe: ({node}) ->
       html = csv4xls.to-html data
       # 設置 iframe 的內容
