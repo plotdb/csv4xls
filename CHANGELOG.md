@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.4.3
+
+ - fix typo in delimiter option determining
+
+
 ## v0.4.2
 
  - Add `forceText` option to force all cells in XLSX output to be text type

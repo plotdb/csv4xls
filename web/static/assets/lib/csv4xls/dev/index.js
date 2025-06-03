@@ -13,10 +13,10 @@
     opt == null && (opt = {});
     return {
       format: opt.format || 'auto',
-      delimiter: opt.delimiter || ({
+      delimiter: {
         csv: ',',
-        tsv: 't'
-      }[opt.format] || 't'),
+        tsv: '\t'
+      }[opt.format] || opt.delimiter || '\t',
       forceText: opt.forceText || false
     };
   };

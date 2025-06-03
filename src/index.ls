@@ -9,7 +9,7 @@ has-xlsx = ->
 
 parse-option = (opt = {}) ->
   format: opt.format or 'auto'
-  delimiter: opt.delimiter or ({csv: ',', tsv: \t}[opt.format] or \t)
+  delimiter: ({csv: ',', tsv: \\t}[opt.format] or opt.delimiter or \\t)
   force-text: opt.force-text or false
 
 obj = do
