@@ -67,6 +67,10 @@ csv4xls provides following APIs:
 - When `format` is set to `'auto'` (default), the library will use XLSX if available, otherwise fall back to CSV/TSV.
 
 
+## Note
+
+When using in Nodejs environment, version 18+ is required for `Blob` support which is used in `toBlob` function.
+
 
 ## License
 
