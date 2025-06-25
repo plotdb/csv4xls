@@ -69,7 +69,7 @@ csv4xls provides following APIs:
 
 ## Note
 
-When using in Nodejs environment, version 18+ is required for `Blob` support which is used in `toBlob` function.
+When using in Nodejs environment, version 18+ is required for `Blob` support which is used in `toBlob` function. Also, `download` api trigger download via link clicking thus it's also a frontend-only feature.
 
 
 ## License
