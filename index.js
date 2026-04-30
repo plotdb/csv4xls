@@ -91,8 +91,8 @@
           });
         } catch (e$) {
           e = e$;
-          ref$ = ['tsv', '\t'], format = ref$[0], delimiter = ref$[1];
-          console.warn("Failed to create XLSX. Falling back to CSV/TSV format.", e);
+          console.error("Failed to create XLSX: ", e);
+          throw e;
         }
       }
       if (format === 'html') {

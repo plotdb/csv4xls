@@ -7,24 +7,27 @@ Convert a 2D array to xls-compatible CSV, TSV, or XLSX file.
 
 include csv4xls script, and use:
 
-    // Default: Tab-separated (TSV)
-    ret = csv4xls.toBlob([[1,2,3],[4,5,6]])
-    
-    // Using comma as delimiter (CSV)
-    ret = csv4xls.toBlob([[1,2,3],[4,5,6]], {delimiter: ','})
-    
-    // Using XLSX format (requires XLSX library)
-    ret = csv4xls.toBlob([[1,2,3],[4,5,6]], {format: 'xlsx'})
-    
-    // Using XLSX format with all cells forced to text type
-    ret = csv4xls.toBlob([[1,2,3],[4,5,6]], {format: 'xlsx', forceText: true})
-    
-    // Download with options
-    csv4xls.download([[1,2,3],[4,5,6]], "mydata", {delimiter: ','}) // Will download as mydata.csv
-    csv4xls.download([[1,2,3],[4,5,6]], "mydata") // Will download as mydata.tsv
-    csv4xls.download([[1,2,3],[4,5,6]], "mydata", {format: 'xlsx'}) // Will download as mydata.xlsx
-    csv4xls.download([[1,2,3],[4,5,6]], "mydata", {format: 'xlsx', forceText: true}) // Will download as mydata.xlsx with all cells as text
-
+    // always catch exception in case XLSX fails to convert.
+    try {
+      // Default: Tab-separated (TSV)
+      ret = csv4xls.toBlob([[1,2,3],[4,5,6]])
+      
+      // Using comma as delimiter (CSV)
+      ret = csv4xls.toBlob([[1,2,3],[4,5,6]], {delimiter: ','})
+      
+      // Using XLSX format (requires XLSX library)
+      ret = csv4xls.toBlob([[1,2,3],[4,5,6]], {format: 'xlsx'})
+      
+      // Using XLSX format with all cells forced to text type
+      ret = csv4xls.toBlob([[1,2,3],[4,5,6]], {format: 'xlsx', forceText: true})
+      
+      // Download with options
+      csv4xls.download([[1,2,3],[4,5,6]], "mydata", {delimiter: ','}) // Will download as mydata.csv
+      csv4xls.download([[1,2,3],[4,5,6]], "mydata") // Will download as mydata.tsv
+      csv4xls.download([[1,2,3],[4,5,6]], "mydata", {format: 'xlsx'}) // Will download as mydata.xlsx
+      csv4xls.download([[1,2,3],[4,5,6]], "mydata", {format: 'xlsx', forceText: true}) // Will download as mydata.xlsx with all cells as text
+    } catch(e) {
+    }
 
 ## API
 
