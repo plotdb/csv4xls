@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.5.0
+
+ - always throw exception when XLSX fails to convert.
+
+
 ## v0.4.4
 
  - fix bug: still use xlsx extension when falling back to tsv due to XLSX conversion failure
