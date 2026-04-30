@@ -23,7 +23,7 @@
     "@loadingio/ldquery": "^3.0.6",
     "@zbryikt/template": "^2.4.1",
     "bootstrap": "^4.6.1",
-    "fedep": "^1.4.1",
+    "fedep": "^1.6.0",
     "ldview": "^1.5.1",
     "livescript": ">=1.6.0",
     "proxise": "^1.0.1",
