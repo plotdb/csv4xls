@@ -1,5 +1,10 @@
 # Change Logs
 
+## v0.4.4
+
+ - fix bug: still use xlsx extension when falling back to tsv due to XLSX conversion failure
+
+
 ## v0.4.3
 
  - fix typo in delimiter option determining

@@ -57,6 +57,7 @@ obj = do
         buffer = XLSX.write(workbook, {type: 'array', bookType: 'xlsx'})
         return new Blob([buffer], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
       catch e
+        [format, delimiter] = [\tsv, \\t]
         console.warn "Failed to create XLSX. Falling back to CSV/TSV format.", e
         # Fall back to CSV/TSV if XLSX fails
     
