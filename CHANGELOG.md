@@ -1,5 +1,10 @@
 # Change Logs
 
+## master
+
+ - upgrade dependencies
+
+
 ## v0.5.0
 
  - always throw exception when XLSX fails to convert.
