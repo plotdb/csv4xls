@@ -1,6 +1,6 @@
 # Change Logs
 
-## master
+## v0.6.0
 
  - features:
    - builtin 0-dependency xlsx writer (`src/xlsx.ls`, bundled into `dist/index.js`).
