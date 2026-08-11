@@ -10,7 +10,10 @@ has-xlsx = ->
 parse-option = (opt = {}) ->
   format: opt.format or 'auto'
   delimiter: ({csv: ',', tsv: \\t}[opt.format] or opt.delimiter or \\t)
-  force-text: opt.force-text or false
+  # xlsx output defaults to all-text so values like "00123" survive.
+  force-text: if opt.force-text? => !!opt.force-text else true
+  # builtin (0 dependency) writer unless sheetjs is explicitly asked for.
+  engine: if opt.engine == \sheetjs => \sheetjs else \builtin
 
 obj = do
   to-string: (data, delimiter = '\t') ->
@@ -30,7 +33,16 @@ obj = do
     ba[0] = 0xff
     ba[1] = 0xfe
     return ba
+  # xlsx bytes. uses the builtin 0-dependency writer unless
+  # `engine: 'sheetjs'` is given, in which case the global XLSX is required.
   to-xlsx: (data, options = {}) ->
+    {force-text, engine} = parse-option options
+    if engine != \sheetjs => return xlsx data, {force-text, sheet-name: options.sheet-name}
+    if !has-xlsx! => throw new Error("XLSX module not found. Please include xlsx.js in your project.")
+    workbook = obj.to-workbook data, {force-text}
+    new Uint8Array(XLSX.write(workbook, {type: 'array', bookType: 'xlsx'}))
+  # sheetjs workbook object, for callers that want to post-process it.
+  to-workbook: (data, options = {}) ->
     if !has-xlsx! => throw new Error("XLSX module not found. Please include xlsx.js in your project.")
     workbook = XLSX.utils.book_new!
     
@@ -48,14 +60,13 @@ obj = do
     
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1")
     return workbook
-  to-blob: (data, options = {delimiter: undefined, format: 'auto', force-text: false}) ->
-    {format, delimiter, force-text} = parse-option options
-    # If format is xlsx, use XLSX module
-    if format == 'xlsx' or (format == 'auto' and has-xlsx!)
+  to-blob: (data, options = {delimiter: undefined, format: 'auto', force-text: true}) ->
+    {format, delimiter, force-text, engine} = parse-option options
+    # xlsx is always available now thanks to the builtin writer.
+    if format == 'xlsx' or format == 'auto'
       try
-        workbook = obj.to-xlsx(data, {force-text})
-        buffer = XLSX.write(workbook, {type: 'array', bookType: 'xlsx'})
-        return new Blob([buffer], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+        buffer = obj.to-xlsx(data, options)
+        return new Blob([buffer], {type: xlsx.mimetype})
       catch e
         # we should always throw exception in case that xlsx has issues.
         # otherwise extension and format will mismatch for caller.
@@ -87,14 +98,14 @@ obj = do
     ba = obj.to-array(data, delimiter)
     mime-type = if delimiter == ',' then "text/csv" else "text/tab-separated-values"
     new Blob([ba], {type: mime-type})
-  to-href: (data, options = {delimiter: undefined, format: 'auto', force-text: false}) ->
+  to-href: (data, options = {delimiter: undefined, format: 'auto', force-text: true}) ->
     blob = obj.to-blob(data, options)
     return URL.createObjectURL blob
-  download: (data, name = "data", options = {delimiter: undefined, format: 'auto', force-text: false}) ->
+  download: (data, name = "data", options = {delimiter: undefined, format: 'auto', force-text: true}) ->
     {format, delimiter, force-text} = parse-option options
     # Determine extension based on format and delimiter
     extension =
-      if format == 'xlsx' or (format == 'auto' and has-xlsx!) => \.xlsx
+      if format == 'xlsx' or format == 'auto' => \.xlsx
       else if format == 'html' => \.html
       else if format == 'xls-html' => '.xls'
       else if delimiter == ',' => '.csv' else '.tsv'
@@ -144,8 +155,10 @@ obj = do
     html += "</table>"
     return html
 
-csv4xls = (data, options = {delimiter: undefined, format: 'auto', force-text: false}) -> obj.to-href data, options
+csv4xls = (data, options = {delimiter: undefined, format: 'auto', force-text: true}) -> obj.to-href data, options
 csv4xls <<< obj
+# raw builtin writer, for callers that only want the bytes without any option handling.
+csv4xls.xlsx = xlsx
 
 if module? => module.exports = csv4xls
 else if window? => window.csv4xls = csv4xls

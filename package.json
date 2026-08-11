@@ -15,7 +15,9 @@
     "url": "https://github.com/plotdb/csv4xls"
   },
   "scripts": {
-    "start": "npx server -r web -o true"
+    "start": "npx server -r web -o true",
+    "build": "./build",
+    "test": "lsc test/xlsx.ls"
   },
   "devDependencies": {
     "@loadingio/bootstrap.ext": "^0.0.12",

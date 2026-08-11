@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 rm -rf dist
 mkdir -p dist
-echo "build src/index.ls -> dist/index.js ..."
-./node_modules/.bin/lsc -cp --no-header src/index.ls > dist/index.js
+echo "build src/*.ls -> dist/index.js ..."
+# compiled bare and wrapped together so index.ls can use xlsx.ls directly
+# while nothing leaks to global scope.
+{
+  echo "(function(){"
+  ./node_modules/.bin/lsc -bcp --no-header src/xlsx.ls
+  ./node_modules/.bin/lsc -bcp --no-header src/index.ls
+  echo "}).call(this);"
+} > dist/index.js
 echo "minifying index.js ..."
 ./node_modules/.bin/uglifyjs dist/index.js -m -c > dist/index.min.js
 echo "copy dist files to web ..."

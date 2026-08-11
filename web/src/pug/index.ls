@@ -21,7 +21,10 @@ view = new ldview do
   handler:
     link: ({node}) ->
       type = node.dataset.type
-      node.setAttribute \href, csv4xls.to-href data, format: type, force-text: true
+      node.setAttribute \href, csv4xls.to-href data, do
+        format: type
+        force-text: true
+        engine: node.dataset.engine
     iframe: ({node}) ->
       html = csv4xls.to-html data
       # 設置 iframe 的內容

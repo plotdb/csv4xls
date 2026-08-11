@@ -2,6 +2,19 @@
 
 ## master
 
+ - features:
+   - builtin 0-dependency xlsx writer (`src/xlsx.ls`, bundled into `dist/index.js`).
+     minimal OOXML + STORE mode zip, inline strings, no styling.
+   - `toXlsx` now returns xlsx bytes (Uint8Array) instead of a SheetJS workbook.
+     use `toWorkbook` for the old SheetJS workbook object.
+   - `options.sheetName` for xlsx output.
+   - `options.engine: 'sheetjs'` to explicitly use the global XLSX (SheetJS) instead
+     of the builtin writer.
+ - tweaks:
+   - breaking: `format: 'auto'` now always outputs xlsx, since the builtin writer is
+     always available. use `format: 'csv'` / `'tsv'` for the previous fallback.
+   - breaking: `forceText` now defaults to `true` for xlsx output, so values like
+     `"00123"` stay text. pass `forceText: false` to keep native number/boolean types.
  - upgrade dependencies
 
 
